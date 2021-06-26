@@ -1,0 +1,48 @@
+syntax = "proto2";
+
+package com.tencent.edu.open.udept;
+
+// 1. 课程权限设保存请求信息
+message SaveOpenCourseAuthReq {
+  optional string term_id = 1;
+  repeated string dept_list = 2;  // 允许的部门列表
+  repeated string user_list = 3;  // 允许的用户列表
+}
+// 课程权限设保存响应信息
+message SaveOpenCourseAuthRsp {
+}
+
+// 2. 获取课程权限信息
+message GetOpenCourseAuthReq {
+  optional string term_id = 1;    // 课程ID
+}
+// 获取课程权限信息
+message GetOpenCourseAuthRsp {
+  optional string term_id = 1;    // 课程ID
+  repeated string dept_list = 2;  // 允许的部门列表
+  repeated string user_list = 3;  // 允许的用户列表
+}
+
+// 3. 课程权限校验请求信息
+message CheckOpenCourseAuthReq {
+  optional uint64 uin = 1;        // 上课的学生uin信息（144开头数据）
+  optional string term_id = 2;    // 课程ID
+}
+// 课程权限校验响应信息
+message CheckOpenCourseAuthRsp {
+  optional uint32 auth_pass = 1;            // 课程校验通过结果（0：校验未通过 1：校验通过）
+  optional string auth_fail_reason = 2;     // 鉴权未通过原因（1：为非班学生无法访问课堂，2：为非本校学生无法访问课堂）
+  optional string redirect_login_url = 3;   // 鉴权未通过的重定向登录地址
+}
+
+// 课程权限服务
+service EduOpenCourseAuth {
+  // 第三方课程权限设置保存
+  rpc SaveOpenCourseAuth(SaveOpenCourseAuthReq) returns (SaveOpenCourseAuthRsp);
+
+  // 第三方课程权限设置获取
+  rpc GetOpenCourseAuth(GetOpenCourseAuthReq) returns (GetOpenCourseAuthRsp);
+
+  // 检测学生是否有权限上课
+  rpc CheckOpenCourseAuth(CheckOpenCourseAuthReq) returns (CheckOpenCourseAuthRsp);
+}
