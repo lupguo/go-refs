@@ -3,10 +3,11 @@ package json
 import (
 	"context"
 	"encoding/json"
-	"github.com/go-redis/redis/v8"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/go-redis/redis/v8"
 )
 
 type Person struct {
@@ -155,4 +156,25 @@ func TestJsonEncodeX(t *testing.T) {
 		})
 	}
 
+}
+
+func TestUnmarshalJson(t *testing.T) {
+	testStrs := []string{
+		`[]`,
+		`[1]`,
+		`[1,2]`,
+		`[
+1,
+2,
+3]`,
+	}
+	for _, str := range testStrs {
+		var list []uint64
+		err := json.Unmarshal([]byte(str), &list)
+		if err != nil {
+			t.Errorf("unmarsh %v got err %v", str, err)
+			continue
+		}
+		t.Logf("unmarshal succ got list %v", list)
+	}
 }

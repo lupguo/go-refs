@@ -50,6 +50,12 @@ func TestRoundTime(t *testing.T) {
 	}
 }
 
-func TestName(t *testing.T) {
+func TestZeroTime(t *testing.T) {
+	var now time.Time
+	t.Logf("%s", now.Format("2006/01/02 15:04:05"))
+	t.Logf("%t", now.IsZero())
 
+	now2 := time.Now()
+	t.Logf("%s", now2.Format("2006/01/02 15:04:05"))
+	t.Logf("%t", now2.IsZero())
 }

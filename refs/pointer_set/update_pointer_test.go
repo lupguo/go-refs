@@ -14,6 +14,5 @@ func SetMagicCodeForApp(u *User) {
 
 func TestUpdateUser(t *testing.T) {
 	u := &User{}
-	SetMagicCodeForApp(u)
 	t.Logf("user %v", u)
 }

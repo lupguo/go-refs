@@ -4,80 +4,80 @@ package com.tencent.edu.open.udept;
 
 // 千帆部门信息
 message IdsDepartment {
-  optional string tenantId = 1;       // 千帆租户ID（开大ID）
-  optional string dept_id = 2;        // 千帆部门ID
-  optional string dept_name = 3;      // 千帆部门名称
-  optional string parent_id = 4;      // 千帆部门父节点ID
-  repeated string ancestor = 5;       // 千帆部门祖先节点（从根到自己）
+    optional string tenantId = 1;       // 千帆租户ID（开大ID）
+    optional string dept_id = 2;        // 千帆部门ID
+    optional string dept_name = 3;      // 千帆部门名称
+    optional string parent_id = 4;      // 千帆部门父节点ID
+    repeated string ancestor = 5;       // 千帆部门祖先节点（从根到自己）
 }
 
 // 千帆用户信息
 message IdsUser {
-  optional string tenantId = 1;       // 千帆租户ID
-  optional string dept_id = 2;        // 千帆用户所属部门ID
-  optional string ids_uid = 3;        // 千帆用户UID
-  optional string username = 4;       // 千帆用户名
-  optional string display_name = 5;   // 千帆用户展示名称
-  optional string phone_num = 6;      // 千帆用户手机号
+    optional string tenantId = 1;       // 千帆租户ID
+    optional string dept_id = 2;        // 千帆用户所属部门ID
+    optional string ids_uid = 3;        // 千帆用户UID
+    optional string username = 4;       // 千帆用户名
+    optional string display_name = 5;   // 千帆用户展示名称
+    optional string phone_num = 6;      // 千帆用户手机号
 }
 
 // 1. 通讯录子部门请求消息
 message GetSubDeptsReq {
-  optional string dept_id = 1;            // 部门ID（若dept_id=0，表示获取根目录信息）
-  optional string page_index = 2;         // 起始页码
-  optional string page_size = 3;          // 分页大小
+    optional string dept_id = 1;            // 部门ID（若dept_id=0，表示获取根目录信息）
+    optional string page_index = 2;         // 起始页码
+    optional string page_size = 3;          // 分页大小
 }
 // 通讯录子部门响应消息
 message GetSubDeptsRsp {
-  repeated IdsDepartment dept_list = 1;   // 通讯录列表
+    repeated IdsDepartment dept_list = 1;   // 通讯录列表
 }
 
 // 2. 通讯录部门用户请求
 message GetDeptUsersReq {
-  optional string dept_id = 1;            // 部门ID（若dept_id=0，表示获取根目录用户信息）
-  optional string page_index = 2;         // 起始页码
-  optional string page_size = 3;          // 分页大小
+    optional string dept_id = 1;            // 部门ID（若dept_id=0，表示获取根目录用户信息）
+    optional string page_index = 2;         // 起始页码
+    optional string page_size = 3;          // 分页大小
 }
 // 通讯录部门用户响应
 message GetDeptUsersRsp {
-  repeated IdsUser user_list = 1;         // 通讯录用户列表
+    repeated IdsUser user_list = 1;         // 通讯录用户列表
 }
 
 // 3. 通讯录部门搜索请求
 message SearchDeptsReq {
-  optional string keywords = 1;     // 搜索关键字
-  optional string page_index = 2;   // 起始页码
-  optional string page_size = 3;    // 分页大小
+    optional string keywords = 1;     // 搜索关键字
+    optional string page_index = 2;   // 起始页码
+    optional string page_size = 3;    // 分页大小
 }
 // 通讯录部门搜索响应
 message SearchDeptsRsp {
-  repeated IdsDepartment dept_list = 1;  // 通讯录列表
-  optional int32 total = 2;             // 本次结果总数
+    repeated IdsDepartment dept_list = 1;  // 通讯录列表
+    optional int32 total = 2;             // 本次结果总数
 }
 
 // 4. 通讯录用户搜索请求
 message SearchUsersReq {
-  optional string keywords = 1;     // 搜索关键字
-  optional string page_index = 2;   // 起始页码
-  optional string page_size = 3;    // 分页大小
+    optional string keywords = 1;     // 搜索关键字
+    optional string page_index = 2;   // 起始页码
+    optional string page_size = 3;    // 分页大小
 }
 // 通讯录用户搜索响应
 message SearchUsersRsp {
-  repeated IdsUser user_list = 1;   // 用户列表
-  optional int32 total = 2;         // 本次结果总数
+    repeated IdsUser user_list = 1;   // 用户列表
+    optional int32 total = 2;         // 本次结果总数
 }
 
 // Edu开放通讯录服务
 service EduOpenUserDept {
-  // 获取部门信息
-  rpc GetSubDepts(GetSubDeptsReq) returns (GetSubDeptsRsp);
+    // 获取部门信息
+    rpc GetSubDepts (GetSubDeptsReq) returns (GetSubDeptsRsp);
 
-  // 获取部门用户信息
-  rpc GetDeptUsers(GetDeptUsersReq) returns (GetDeptUsersRsp);
+    // 获取部门用户信息
+    rpc GetDeptUsers (GetDeptUsersReq) returns (GetDeptUsersRsp);
 
-  // 检索部门
-  rpc SearchDetps(SearchDeptsReq) returns (SearchDeptsRsp);
+    // 检索部门
+    rpc SearchDetps (SearchDeptsReq) returns (SearchDeptsRsp);
 
-  // 检索部门用户信息
-  rpc SearchUsers(SearchUsersReq) returns (SearchUsersRsp);
+    // 检索部门用户信息
+    rpc SearchUsers (SearchUsersReq) returns (SearchUsersRsp);
 }

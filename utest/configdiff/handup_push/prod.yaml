@@ -1,0 +1,75 @@
+client:
+  filter:
+    - m007
+    - trpc_edu_log
+  namespace: Production
+  timeout: 30000
+  service:                                         #针对单个后端的配置
+    - name: go_k12_online_credit_server     #后端服务的service name
+      disable_servicerouter: true
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: qapp               #应用层协议 trpc http
+      target: polaris://1056257:65536
+      timeout: 5000
+    - name: k12_edu_info_read     #后端服务的service name
+      disable_servicerouter: true
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: qapp               #应用层协议 trpc http
+      target: polaris://557761:327680
+      timeout: 5000
+    - name: go_spp_txcloud_proxy_svr     #后端服务的service name
+      disable_servicerouter: true
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: qapp               #应用层协议 trpc http
+      target: polaris://652481:1703936
+      timeout: 5000
+    - name: go_av_controller     #后端服务的service name
+      disable_servicerouter: true
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: http               #应用层协议 trpc http
+      target: polaris://1191361:131072
+      timeout: 5000
+    - name: go_k12_course_apply_svr                  #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: qapp                           #应用层协议 trpc http
+      target: polaris://1404737:131072       #请求服务地址
+      timeout: 5000
+    - name: go_k12_lesson_merge_svr     #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      target: polaris://go_k12_lesson_merge_svr
+      timeout: 5000
+    - name: go_k12_push_msg_preprocess_svr     #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      target: polaris://1090497:131072
+      timeout: 5000
+    - name: go_k12_push_center_adapter     #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      target: polaris://561345:196608
+      timeout: 5000
+    - name: go_edu_push_adapter     #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      target: polaris://trpc.base.go_svr_base_push_proxy.bytes
+      timeout: 5000
+    - name: trpc.CSIG_EDU_MEDIA_SERVICE.go_edu_handup_srv.HandUp     #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      disable_servicerouter: true
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc               #应用层协议 trpc http
+      target: polaris://trpc.CSIG_EDU_MEDIA_SERVICE.go_edu_handup_srv.HandUp
+      timeout: 5000                            #请求最长处理时间
+    - name: trpc.CSIG_EDU_MEDIA_SERVICE.go_edu_live_stream.edu_live_stream     #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      disable_servicerouter: true
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc               #应用层协议 trpc http
+      target: polaris://trpc.CSIG_EDU_MEDIA_SERVICE.go_edu_live_stream.edu_live_stream
+      timeout: 3000                            #请求最长处理时间

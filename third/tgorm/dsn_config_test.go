@@ -2,14 +2,15 @@ package tgorm
 
 import (
 	"encoding/json"
-	"github.com/go-sql-driver/mysql"
 	"testing"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 func TestDsnConfig(t *testing.T) {
 	dbConfig := &mysql.Config{
 		User:   "root",
-		Passwd: "Secrect123.",
+		Passwd: "Secrect123",
 		Net:    "tcp",
 		Addr:   "127.0.0.1:3306",
 		DBName: "edu_account_bind",
@@ -48,4 +49,8 @@ func TestParseConfig(t *testing.T) {
 	}
 	t.Logf("%+v", dbConfig)
 	t.Logf("%s", dbConfig.FormatDSN())
+}
+
+func TestName(t *testing.T) {
+
 }

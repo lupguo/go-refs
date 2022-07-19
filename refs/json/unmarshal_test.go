@@ -25,19 +25,56 @@ type User struct {
 	ID int `json:"id"`
 }
 
+//    unmarshal_test.go:34: 0x1400001d540, isNil(zere)=false
+//    unmarshal_test.go:41: unmarshal zero1 ok
+//    unmarshal_test.go:46: 0x1400001d5b8, isNil(zere)=false
+//    unmarshal_test.go:50: unmarshal zero2 ok
+//    unmarshal_test.go:55: 0x14000010098, isNil(zere)=false
+//    unmarshal_test.go:59: unmarshal zero3 ok
+//    unmarshal_test.go:64: 0x0, isNil(zere)=true
+//    unmarshal_test.go:66: unmarshal zero4 got err,json: Unmarshal(nil *json.User)
 func TestNilUnmarshal(t *testing.T) {
-	var zero *User
-	var u = &User{}
-	zero = u
-	_ = u
-	t.Logf("%p, isNil(zere)=%t", zero, zero == nil)
-
-	err := json.Unmarshal([]byte("{\"id\": 100}"), zero)
-	if err != nil {
-		t.Errorf("unmarshal got err,%s", err)
+	type User struct {
+		ID int `json:"id"`
 	}
 
-	t.Logf("zero=%+v", zero)
+	var zero1 User
+	t.Logf("%p, isNil(zere)=%t", &zero1, &zero1 == nil)
+
+	// 1. ok
+	userBytes := []byte(`{"id":100}`)
+	if err := json.Unmarshal(userBytes, &zero1); err != nil {
+		t.Errorf("unmarshal zero1 got err,%s", err)
+	} else {
+		t.Logf("unmarshal zero1 ok")
+	}
+
+	// 2. ok
+	zero2 := User{}
+	t.Logf("%p, isNil(zere)=%t", &zero2, &zero2 == nil)
+	if err := json.Unmarshal(userBytes, &zero2); err != nil {
+		t.Errorf("unmarshal zero2 got err,%s", err)
+	} else {
+		t.Logf("unmarshal zero2 ok")
+	}
+
+	// 3. ok
+	var zero3 *User
+	t.Logf("%p, isNil(zere)=%t", &zero3, &zero3 == nil)
+	if err := json.Unmarshal(userBytes, &zero3); err != nil {
+		t.Errorf("unmarshal zero3 got err,%s", err)
+	} else {
+		t.Logf("unmarshal zero3 ok")
+	}
+
+	// 3. unmarshal got err,json: Unmarshal(nil *json.User)
+	var zero4 *User
+	t.Logf("%p, isNil(zere)=%t", zero4, zero4 == nil)
+	if err := json.Unmarshal(userBytes, zero4); err != nil {
+		t.Errorf("unmarshal zero4 got err,%s", err)
+	} else {
+		t.Logf("unmarshal zero4 ok")
+	}
 }
 
 func TestUnmashal22(t *testing.T) {
@@ -52,7 +89,6 @@ func TestUnmashal22(t *testing.T) {
 	}
 	t.Logf("%s", v)
 	// unmarshal
-
 
 	// pointer
 	var sur []*User
@@ -70,6 +106,5 @@ func TestUnmashal22(t *testing.T) {
 		t.Error(err)
 	}
 	t.Logf("u2=>%v", u2)
-
 
 }

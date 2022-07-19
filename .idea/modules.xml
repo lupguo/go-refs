@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/go-refs.iml" filepath="$PROJECT_DIR$/.idea/go-refs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../projects/git.woa.com/edu-online/share/.idea/share.iml" filepath="$PROJECT_DIR$/../../projects/git.woa.com/edu-online/share/.idea/share.iml" />
     </modules>
   </component>
 </project>

@@ -3,6 +3,7 @@ package goredis
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 	"time"
@@ -12,7 +13,11 @@ import (
 )
 
 func getRds() *redis.Client {
-	rdsOpts, _ := redis.ParseURL("redis://:clark@127.0.0.1:6379/0")
+	rdsOpts, err := redis.ParseURL(`redis://clark:Secret@123.@9.134.233.187:6380/0`)
+	if err != nil {
+		log.Fatalf("getRds() fail: %s", err)
+	}
+
 	return redis.NewClient(rdsOpts)
 }
 
@@ -20,7 +25,7 @@ var (
 	ctx = context.Background()
 )
 
-func TestRedisGetCommand(t *testing.T)  {
+func TestRedisGetCommand(t *testing.T) {
 	rds := getRds()
 	// return ""
 	v1 := rds.Get(ctx, `tst_100`).Val()
@@ -36,31 +41,23 @@ func TestRedisGetCommand(t *testing.T)  {
 }
 
 func TestExampleNewClient(t *testing.T) {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "clark", // no password set
-		DB:       0,       // use default DB
-	})
+	rds := getRds()
 
-	pong, err := rdb.Ping(ctx).Result()
+	pong, err := rds.Ping(ctx).Result()
 	t.Log(pong, err)
 	// Output: PONG <nil>
 }
 
 func TestExampleClient(t *testing.T) {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
+	rdb := getRds()
 	err := rdb.Set(ctx, "key", "value", 0).Err()
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
 
 	val, err := rdb.Get(ctx, "key").Result()
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
 	fmt.Println("key", val)
 
@@ -68,12 +65,70 @@ func TestExampleClient(t *testing.T) {
 	if err == redis.Nil {
 		fmt.Println("key2 does not exist")
 	} else if err != nil {
-		panic(err)
+		t.Fatal(err)
 	} else {
-		fmt.Println("key2", val2)
+		t.Log("key2", val2)
 	}
 	// Output: key value
 	// key2 does not exist
+}
+
+func TestExists(t *testing.T) {
+	rds := getRds()
+
+	// not exist key
+	existKey3 := rds.Exists(ctx, "key3")
+	cmd, err := existKey3.Result()
+	t.Logf("cmd=%+v, err=%v, val=%v, str=%v", cmd, err, existKey3.Val(), existKey3.String())
+
+	// exist key
+	rds.Set(ctx, "hello", "val", -1)
+	existHello := rds.Exists(ctx, "hello")
+	cmd, err = existHello.Result()
+	t.Logf("cmd=%+v, err=%v, val=%v, str=%v", cmd, err, existHello.Val(), existHello.String())
+}
+
+func TestExpire(t *testing.T) {
+	rds := getRds()
+	key := "expireKey"
+	// del
+	t.Logf("del err=%v", rds.Del(ctx, key).Err())
+
+	// set
+	err := rds.Set(ctx, key, time.Now().String(), -1).Err()
+	t.Logf("err=%v", err)
+
+	// get
+	t.Logf("exist val=%v", rds.Exists(ctx, key).Val())
+
+	// ttl
+	t.Logf("ttl=%v", rds.TTL(ctx, key).Val())
+
+}
+
+//    redis_test.go:91: true true <nil> <nil> ok
+//    redis_test.go:99: false false <nil> <nil> ok
+func TestSetNx(t *testing.T) {
+	rdsOpts, err := redis.ParseURL("redis://:clark@127.0.0.1:6379/0")
+	assert.Nil(t, err)
+	rdb := redis.NewClient(rdsOpts)
+
+	// setnx 1th
+	doSetnx := rdb.SetNX(ctx, "key", "ok", 10*time.Second)
+	snxVal := doSetnx.Val()
+	snxRst, rstErr := doSetnx.Result()
+	snxErr := doSetnx.Err()
+	// 1th val
+	snxVV := rdb.Get(ctx, "key").Val()
+	t.Log(snxVal, snxRst, rstErr, snxErr, snxVV)
+
+	// 2th
+	doSetnx = rdb.SetNX(ctx, "key", "ok", 10*time.Second)
+	snxVal = doSetnx.Val()
+	snxRst, rstErr = doSetnx.Result()
+	snxErr = doSetnx.Err()
+	snxVV = rdb.Get(ctx, "key").Val()
+	t.Log(snxVal, snxRst, rstErr, snxErr, snxVV)
 }
 
 // [scheme:][//[userinfo@]host][/]path[?query][#fragment]
