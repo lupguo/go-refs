@@ -1,4 +1,4 @@
-package intf
+package interfacex
 
 import (
 	"testing"

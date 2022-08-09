@@ -5,6 +5,25 @@ import (
 	"testing"
 )
 
+func TestUnmarshalArray(t *testing.T) {
+	str := `[144115351647524390,287853405]`
+	var uids []uint64
+	err := json.Unmarshal([]byte(str), &uids)
+	if err != nil {
+		t.Error(err)
+	}
+	t.Logf("%+v", uids)
+}
+
+func TestMarshalArray(t *testing.T) {
+	uids := []uint64{1, 2, 3}
+	b, err := json.Marshal(uids)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("%s", b)
+}
+
 type Tenant struct {
 	TenantId string `json:"tenant_id"` // 租户ID
 	UserName string `json:"user_name"` // 租户名称

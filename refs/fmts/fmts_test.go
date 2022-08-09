@@ -1,6 +1,7 @@
 package fmts
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 
@@ -29,4 +30,33 @@ func TestFormt(t *testing.T) {
 	t.Logf("%0.2f", float64(ia))
 	ib := 10
 	t.Logf("%0.2d", ib)
+}
+
+func TestPrintV(t *testing.T) {
+	type ttype struct {
+		A int
+		B string
+	}
+
+	v := ttype{100, "hello"}
+
+	vs := []*ttype{
+		{1, "aaa"},
+		{2, "bbb"},
+	}
+
+	t.Logf("struct: %v, %+[1]v, %#[1]v", v)
+	t.Logf("pointer: %v, %+[1]v, %#[1]v", &v)
+
+	// slice
+	t.Logf("raw: %v, %+[1]v, %#[1]v", vs)
+	t.Logf("slice: %v, %+[1]v, %#[1]v", &vs)
+
+	// json print
+	b, err := json.Marshal(vs)
+	if err != nil {
+		t.Error(err)
+	}
+	t.Logf("%s", b)
+
 }
