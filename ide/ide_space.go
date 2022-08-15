@@ -2,8 +2,12 @@ package ide
 
 import (
 	"fmt"
-	"strconv"
 )
+
+type IPerson interface {
+	Speak(lang string) (string, error)
+	GetUserName() string
+}
 
 type Person struct {
 	Name string
@@ -21,9 +25,8 @@ func (p *Person) GetUserName() string {
 
 func afunc() {
 	p1 := &Person{}
-
 	p1.Speak("hello/world")
 	return
-	float, err := strconv.ParseFloat("3.14", 64)
-	parseInt, err := strconv.ParseInt("2", 10, 64)
+	// float, err := strconv.ParseFloat("3.14", 64)
+	// parseInt, err := strconv.ParseInt("2", 10, 64)
 }

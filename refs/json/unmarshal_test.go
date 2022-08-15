@@ -44,14 +44,16 @@ type User struct {
 	ID int `json:"id"`
 }
 
-//    unmarshal_test.go:34: 0x1400001d540, isNil(zere)=false
-//    unmarshal_test.go:41: unmarshal zero1 ok
-//    unmarshal_test.go:46: 0x1400001d5b8, isNil(zere)=false
-//    unmarshal_test.go:50: unmarshal zero2 ok
-//    unmarshal_test.go:55: 0x14000010098, isNil(zere)=false
-//    unmarshal_test.go:59: unmarshal zero3 ok
-//    unmarshal_test.go:64: 0x0, isNil(zere)=true
-//    unmarshal_test.go:66: unmarshal zero4 got err,json: Unmarshal(nil *json.User)
+// unmarshal_test.go:61: 0x14000019540, isNil(zere)=false
+// unmarshal_test.go:68: unmarshal zero1 ok
+// unmarshal_test.go:73: 0x140000195b8, isNil(zere)=false
+// unmarshal_test.go:77: unmarshal zero2 ok
+// unmarshal_test.go:82: 0x14000010098, isNil(zere)=false
+// unmarshal_test.go:86: unmarshal zero3 ok
+// unmarshal_test.go:91: 0x0, isNil(zere)=true
+// unmarshal_test.go:93: unmarshal zero4 got err,json: Unmarshal(nil *json.User)
+// unmarshal_test.go:100: 0x14000019620, isNil(zere)=false
+// unmarshal_test.go:104: unmarshal zero5 ok
 func TestNilUnmarshal(t *testing.T) {
 	type User struct {
 		ID int `json:"id"`
@@ -86,7 +88,7 @@ func TestNilUnmarshal(t *testing.T) {
 		t.Logf("unmarshal zero3 ok")
 	}
 
-	// 3. unmarshal got err,json: Unmarshal(nil *json.User)
+	// 4. unmarshal got err,json: Unmarshal(nil *json.User)
 	var zero4 *User
 	t.Logf("%p, isNil(zere)=%t", zero4, zero4 == nil)
 	if err := json.Unmarshal(userBytes, zero4); err != nil {
@@ -94,6 +96,16 @@ func TestNilUnmarshal(t *testing.T) {
 	} else {
 		t.Logf("unmarshal zero4 ok")
 	}
+
+	// 5. ok
+	zero5 := &User{}
+	t.Logf("%p, isNil(zere)=%t", zero5, zero5 == nil)
+	if err := json.Unmarshal(userBytes, zero5); err != nil {
+		t.Errorf("unmarshal zero5 got err,%s", err)
+	} else {
+		t.Logf("unmarshal zero5 ok")
+	}
+
 }
 
 func TestUnmashal22(t *testing.T) {

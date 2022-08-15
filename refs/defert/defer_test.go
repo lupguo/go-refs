@@ -6,23 +6,38 @@ import (
 	"time"
 )
 
+// defer 符合FILO栈的运行方式，defer函数会压栈
+
 func TestDefer(t *testing.T) {
 	a := 1
+
+	// 压入
 	defer func() {
-		fmt.Printf("a1=%d", a)
+		fmt.Printf("a1=%d", a) // a1=
 	}()
+
+	// 压入
 	defer func(a int) {
-		fmt.Printf("a2=%d", a)
+		fmt.Printf("a2=%d", a) // a2=1 赋值传入了，a不受最后的a++影响
 	}(a)
+
+	// 压入
 	defer func(a *int) {
-		fmt.Printf("a3=%d", *a)
+		*a++
+		fmt.Printf("a3=%d", *a) // a3=
 	}(&a)
+
 	if true {
-		defer fmt.Println(1)
+		// 压入
+		defer fmt.Println(1) //
 	}
-	fmt.Println("func p1")
-	defer fmt.Println(2)
+
+	fmt.Println("func p1") // 打印 func p1
+
+	defer fmt.Println(2) // 虽然是传入，fmt.Println也是出栈时候执行，不必使用func(){}再包一层
+
 	defer fmt.Println(3)
+
 	a++
 }
 
