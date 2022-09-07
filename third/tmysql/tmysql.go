@@ -32,7 +32,6 @@ type BchSetting struct {
 	ReadInternal   time.Duration
 }
 
-// "utuser:Secret@123@/conn_pool"
 func StartServer(dns string, setting *DBSetting, bchSetting *BchSetting) error {
 	// 1. 服务启动
 	dbCfg, err := mysql.ParseDSN(dns)
@@ -41,27 +40,23 @@ func StartServer(dns string, setting *DBSetting, bchSetting *BchSetting) error {
 	}
 	log.Infof("db cfg: %+v", dbCfg)
 
-	// 2. DB实例
+	// 2. DB连接实例
 	db, err := sql.Open("mysql", dns)
 	if err != nil {
 		return errors.Wrapf(err, "sql open got err,")
 	}
 
-	// 2. Mysql实例+配置
+	// 3. Mysql实例+配置
 	// See "Important settings" section.
 	db.SetConnMaxLifetime(setting.ConnMaxLifeTime)
 	db.SetMaxOpenConns(setting.MaxOpenConns)
 	db.SetMaxIdleConns(setting.MaxIdleConns)
 	db.SetConnMaxIdleTime(setting.ConnMaxIdleTime)
 
-	// rs, err := db.Exec("insert into user (name) values(?)", "hello")
-	// log.Info(rs.LastInsertId())
-	// return err
-
-	// 3. 模拟多协程读、写用户(10w写入,50w读取)
+	// 4. 模拟多协程读、写用户(10w写入,50w读取)
 	go srvStart(db, bchSetting)
 
-	// 4. 启动协程，定期输出监控数据 db.Stat
+	// 5. 启动协程，定期输出监控数据 db.Stat
 	go srvMonitor(db)
 
 	select {}
@@ -79,7 +74,7 @@ func srvMonitor(db *sql.DB) {
 	}
 }
 
-//
+// 模拟启动并发读、写协程
 func srvStart(db *sql.DB, bchCfg *BchSetting) {
 	// 读
 	for i := 0; i < bchCfg.ReadClientNum; i++ {
@@ -115,7 +110,8 @@ func GetUser(bcfg *BchSetting, db *sql.DB, s string) {
 	for {
 		select {
 		case <-time.Tick(bcfg.ReadInternal):
-			rows, err := db.Query("select * from user where name=?", s)
+			// rows, err := db.Query("select * from user where name like ?", "%"+s) : 人为改成为慢查询
+			rows, err := db.Query("select * from user where name like ?", s)
 			if err != nil {
 				log.Errorf("read db query got err: %s", err)
 				continue

@@ -11,13 +11,13 @@ func TestStartServer(t *testing.T) {
 		ConnMaxLifeTime: 1 * time.Hour,
 		ConnMaxIdleTime: 30 * time.Second,
 		MaxOpenConns:    100,
-		MaxIdleConns:    1,
+		MaxIdleConns:    10,
 	}
 	bchSetting := &BchSetting{
-		WriteClientNum: 100,
-		WriteInterval:  100 * time.Millisecond,
-		ReadClientNum:  10,
-		ReadInternal:   50 * time.Millisecond,
+		WriteClientNum: 1,
+		WriteInterval:  10 * time.Millisecond,
+		ReadClientNum:  1,
+		ReadInternal:   10 * time.Millisecond,
 	}
 	if err := StartServer(dns, setting, bchSetting); err != nil {
 		t.Errorf("StartServer() error = %v", err)
