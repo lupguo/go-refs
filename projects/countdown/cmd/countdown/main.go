@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-	"x-learn/think/countdown/count"
+
+	"x-learn/projects/countdown/count"
 )
 
 var d = flag.String("date", "2021/01/01", "input calc date")

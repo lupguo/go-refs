@@ -35,7 +35,7 @@ func (m *MockIApolloConfig) EXPECT() *MockIApolloConfigMockRecorder {
 // GetConfig mocks base method
 func (m *MockIApolloConfig) GetConfig(key string) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetConfig", key)
+	ret := m.ctrl.Call(m, "GetVerConfig", key)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
@@ -43,5 +43,5 @@ func (m *MockIApolloConfig) GetConfig(key string) bool {
 // GetConfig indicates an expected call of GetConfig
 func (mr *MockIApolloConfigMockRecorder) GetConfig(key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConfig", reflect.TypeOf((*MockIApolloConfig)(nil).GetConfig), key)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVerConfig", reflect.TypeOf((*MockIApolloConfig)(nil).GetConfig), key)
 }

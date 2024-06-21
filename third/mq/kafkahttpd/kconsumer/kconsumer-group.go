@@ -26,11 +26,12 @@ func (gc *GroupConsumer) ConnectConsumerGroups(groupID string) (sarama.ConsumerG
 	}
 	return gconsumer, nil
 }
+
 //
 // func (gc *GroupConsumer) CreateTopic(topic string, parition int) {
 // 	b := sarama.NewBroker("d")
 // 	var topicReq = &sarama.CreateTopicsRequest{
-// 		Version:      0,
+// 		NowVersion:      0,
 // 		TopicDetails: nil,
 // 		Timeout:      0,
 // 		ValidateOnly: false,

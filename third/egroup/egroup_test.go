@@ -2,7 +2,9 @@ package egroup
 
 import (
 	"testing"
+	"time"
 
+	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -62,10 +64,15 @@ func TestEgroup3(t *testing.T) {
 	list := []*string{&a, &b, &c}
 	// errgroup 部分
 	egroup := errgroup.Group{}
+	egroup.SetLimit(2)
 	for k, v := range list {
 		k, v := k, v // 特别注意，闭包问题
 		egroup.Go(func() error {
+			if *v == "a" {
+				return errors.New("catch error a!")
+			}
 			t.Logf("#%d, v=>%v, val v=>%v", k, v, *v)
+			time.Sleep(500 * time.Millisecond)
 			return nil
 		})
 	}

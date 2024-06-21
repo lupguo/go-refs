@@ -6,7 +6,6 @@ import (
 	"time"
 )
 
-
 func TestJsonMarshal(t *testing.T) {
 	m := map[string]interface{}{
 		"Aaa":           "Aaa",
@@ -252,7 +251,7 @@ func TestUnMarshalJSON(t *testing.T) {
 }
 
 func TestJsonMarshalX(t *testing.T) {
-	var list = []int{1,2,3}
+	var list = []int{1, 2, 3}
 	marshal, _ := json.Marshal(list)
 	t.Logf("list => %s", string(marshal))
 }

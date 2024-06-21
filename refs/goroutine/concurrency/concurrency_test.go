@@ -17,6 +17,7 @@ func TestConcurrency(t *testing.T) {
 		time.Sleep(time.Second)
 		// send "Hello World" to channel
 		ch <- "Hello World"
+		close(ch)
 	}()
 	// read from channel
 	msg, ok := <-ch
@@ -77,8 +78,9 @@ func TestLimitConcurrency(t *testing.T) {
 
 	// 并发度控制
 	var sem = make(chan struct{}, semaphoreSize)
+	t.Logf("semaphoreSize(NumCPU): %d", semaphoreSize)
 	var wg sync.WaitGroup
-	for i := 0; i < 32; i++ {
+	for i := 0; i < 100; i++ {
 		// acquire semaphore
 		sem <- struct{}{}
 		wg.Add(1)
@@ -92,6 +94,11 @@ func TestLimitConcurrency(t *testing.T) {
 	}
 	// wait for all task to finish
 	wg.Wait()
-	fmt.Printf("total tasks         : %d\n", totalTasks)
-	fmt.Printf("max concurrent tasks: %d\n", maxConcurrentTasks)
+	t.Logf("total tasks         : %d\n", totalTasks)
+	t.Logf("max concurrent tasks: %d\n", maxConcurrentTasks)
+}
+
+func TestCountRune(t *testing.T) {
+	str := "可通过以下命令安装：\n\n```\ngo get -u github.com/davecheney/httpstat\n```\n\n### 使用\n\n使用 `httpstat` 工具很简单，只需在命令行中输入相应的 URL 即可：\n\n```\nhttpstat https://example.com\n```\n\n工具会返回一个带有颜色标识的 http 请求过程信息，包括 DNS 解析、TCP 连接、TLS 握手、服务器处的 http 处理周期和耗时，方便用户进行分析。其安装和使用十分简便。"
+	t.Logf("%d", len([]rune(str)))
 }

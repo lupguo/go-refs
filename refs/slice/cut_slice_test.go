@@ -30,6 +30,13 @@ func TestSliceCut(t *testing.T) {
 	}
 }
 
+func TestSliceCut2(t *testing.T) {
+	arr1 := []int{1, 2, 3, 4}
+	for i := 0; i < 10; i++ {
+		t.Logf("arr1[0:%d]=%v", i, arr1[0:i+1])
+	}
+}
+
 func TestCutSlice(t *testing.T) {
 	var size = 25
 	nums := make([]int, size)

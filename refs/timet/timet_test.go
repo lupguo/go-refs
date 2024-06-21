@@ -57,5 +57,20 @@ func TestZeroTime(t *testing.T) {
 
 	now2 := time.Now()
 	t.Logf("%s", now2.Format("2006/01/02 15:04:05"))
+	t.Logf("%s", now2.Format("2006/01/02 15:04:05.0"))
+	t.Logf("%s", now2.Format("2006/01/02 15:04:05.00"))
+	t.Logf("%s", now2.Format("2006/01/02 15:04:05.000"))
+	t.Logf("%s", now2.Format("2006/01/02 15:04:05,000"))
+	t.Logf("%s", now2.Format("2006/01/02 15:04:05_000"))
+	t.Logf("%s_%d", now2.Format("20060102_150405"), time.Now().Nanosecond()/1e6)
 	t.Logf("%t", now2.IsZero())
+}
+
+func TestDate(t *testing.T) {
+	now := time.Now()
+	year, month, day := now.Date()
+	month++
+	t.Logf("yaer=>%v, month=>%d, day=>%v", year, month, day)
+	next := time.Date(year, month, day, 0, 0, 0, 0, time.Local)
+	t.Logf("next=>%v", next)
 }

@@ -1,48 +1,65 @@
 package defert
 
 import (
-	"fmt"
 	"testing"
 	"time"
 )
 
 // defer 符合FILO栈的运行方式，defer函数会压栈
-
 func TestDefer(t *testing.T) {
 	a := 1
 
-	// 压入
+	// 压入，闭包
 	defer func() {
-		fmt.Printf("a1=%d", a) // a1=
+		t.Logf("a1=%d", a) // a1=(a的值受后续a的值变化影响)
 	}()
 
 	// 压入
 	defer func(a int) {
-		fmt.Printf("a2=%d", a) // a2=1 赋值传入了，a不受最后的a++影响
+		t.Logf("a2=%d", a) // a2=1 赋值传入了，a不受最后的a++影响
 	}(a)
 
 	// 压入
 	defer func(a *int) {
-		*a++
-		fmt.Printf("a3=%d", *a) // a3=
+		*a = *a + 100
+		t.Logf("a3=%d", *a) // 传值，函数内部对a的值改变，会影响其他函数对a值的读取
 	}(&a)
 
 	if true {
 		// 压入
-		defer fmt.Println(1) //
+		defer t.Log(1) //
 	}
 
-	fmt.Println("func p1") // 打印 func p1
+	t.Log("func p1") // 打印 func p1
 
-	defer fmt.Println(2) // 虽然是传入，fmt.Println也是出栈时候执行，不必使用func(){}再包一层
+	defer t.Log(2) // 虽然是传入，t.Log也是出栈时候执行，不必使用func(){}再包一层
+	defer t.Log(3)
 
-	defer fmt.Println(3)
+	defer t.Logf("a=%d", a) // a=1
 
 	a++
 }
 
-func f(t *testing.T) {
+// a=0
+func TestFn1(t *testing.T) {
+	var a = 0
+	defer t.Logf("not a=%d", a) //  a=0 -> 立马进行值拷贝
+	a++
+	defer t.Logf("fn a=%d", a) //   a=1 -> 立马进行值拷贝
+	a++
+}
 
+// a=1
+func TestFn2(t *testing.T) {
+	var a = 0
+	defer func() {
+		t.Logf("a=%d", a) // a=2 -> 最后执行func()时候进行值拷贝
+	}()
+	a++
+	defer func() {
+		t.Logf("a=%d", a) // a=2 -> 最后执行func()时候进行值拷贝
+	}()
+	a++
 }
 
 func g(t *testing.T, n int) {

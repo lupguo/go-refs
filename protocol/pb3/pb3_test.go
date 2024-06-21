@@ -1,19 +1,21 @@
 package person
 
 import (
-	"google.golang.org/protobuf/proto"
 	"testing"
+
+	jsoniter "github.com/json-iterator/go"
+	"google.golang.org/protobuf/proto"
 )
 
 func TestPb3(t *testing.T) {
 	t.Log("====== Test proto3 ======")
 
-	//Create empty object
+	// Create empty object
 	personEmpty := &Person{}
 
 	t.Logf("person of empty:%v", personEmpty.String())
 
-	//Create object with fields
+	// Create object with fields
 	personWithFields := &Person{
 		Name:  "techie",
 		Id:    200508628,
@@ -32,7 +34,7 @@ func TestPb3(t *testing.T) {
 
 	t.Logf("person with fields:%v\r\n", personWithFields.String())
 
-	//Create object and set fields
+	// Create object and set fields
 	person := &Person{}
 	person.Name = "techie"
 	person.Id = 200508628
@@ -45,11 +47,11 @@ func TestPb3(t *testing.T) {
 
 	t.Logf("person set fields:%v\r\n", person.String())
 
-	//Get object fields
+	// Get object fields
 	t.Log("GetId() return: ", person.GetId())
 	t.Log("Id return: ", person.Id)
 
-	//Marshal
+	// Marshal
 	buffer, err := proto.Marshal(person)
 
 	if err != nil {
@@ -59,7 +61,7 @@ func TestPb3(t *testing.T) {
 		t.Log("Marshal successs! buffer:", buffer)
 	}
 
-	//Unmarshal
+	// Unmarshal
 	personUmmarshal := &Person{}
 
 	err = proto.Unmarshal(buffer, personUmmarshal)
@@ -68,6 +70,14 @@ func TestPb3(t *testing.T) {
 		t.Log("Unmarshal failed! error:", err.Error())
 		return
 	} else {
-		t.Log("Unmarshal success! person:", personUmmarshal.String())
+		getType := personUmmarshal.GetPhone()[0].GetType()
+		t.Logf("Unmarshal success! person: %s, getType:%v, equal: %v, num type: %v", personUmmarshal.String(), getType, getType == Person_HOME, int(getType))
 	}
+
+	// Pb -> Json
+	pbJsonStr, err := jsoniter.MarshalToString(person)
+	if err != nil {
+		t.Errorf("jsoniter.MarshalToString got err: %v", err)
+	}
+	t.Logf("jsoniter pb to json: %v", pbJsonStr)
 }

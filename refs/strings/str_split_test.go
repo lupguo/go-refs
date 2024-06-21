@@ -27,3 +27,10 @@ func TestSplit(t *testing.T) {
 	}
 	t.Logf("%#v, len=%d", []string{}, len([]string{}))
 }
+
+func TestSplitCase2(t *testing.T) {
+	for _, v := range strings.Split("        ", " ") {
+		t.Logf("`%+v`, len(v)=%d", v, len(v))
+	}
+
+}

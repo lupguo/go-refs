@@ -3,6 +3,8 @@ package maps
 import (
 	"fmt"
 	"testing"
+
+	"x-learn/advance/klog/log"
 )
 
 type cmdHandler func() error
@@ -73,6 +75,19 @@ func TestDeleteMap(t *testing.T) {
 	m := make(map[int]int)
 	delete(m, 1)
 	delete(m, 2)
+
+}
+
+func TestOKMap(t *testing.T) {
+	var m map[int]int
+	log.Infof("%+v => %p", m, m)
+	log.Infof("%+v => %p", m, &m)
+	log.Infof("m==nil? %v", m == nil)
+	log.Infof("&m==nil? %v", &m == nil)
+	if _, ok := m[100]; !ok {
+		log.Error("not ok")
+	}
+	log.Error("here!")
 }
 
 func TestNilMapGet(t *testing.T) {

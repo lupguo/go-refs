@@ -10,7 +10,7 @@ import (
 )
 
 func TestUUIDV4(t *testing.T) {
-	// Creating UUID Version 4
+	// Creating UUID NowVersion 4
 	u1, u2 := uuid.NewV4(), uuid.NewV4()
 	assert.NotEqual(t, u1.String(), u2.String())
 

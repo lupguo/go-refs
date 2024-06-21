@@ -30,7 +30,7 @@ type Tenant struct {
 	Password string `json:"password"`  // 租户秘钥
 }
 
-func TestUnmarshal(t *testing.T) {
+func TestUnmarshalV1(t *testing.T) {
 	teant := new(Tenant)
 	s := `{\"tenant_id\":\"tn-c65190017f394836863e83ca429b500c\",\"user_name\":\"contactsAdmin\",\"password\":\"Demo@123\"}`
 	err := json.Unmarshal([]byte(s), teant)
@@ -38,6 +38,16 @@ func TestUnmarshal(t *testing.T) {
 		t.Logf("err = %#v", err)
 	}
 	t.Logf("teant=%s", teant)
+}
+
+func TestUnmarshalV2(t *testing.T) {
+	var teant map[string]interface{}
+	s := "{\"tenant_id\":\"tn-c65190017f394836863e83ca429b500c\",\"user_name\":\"contactsAdmin\",\"password\":\"Demo@123\", \"id\":100}"
+	err := json.Unmarshal([]byte(s), &teant)
+	if err != nil {
+		t.Logf("err = %#v", err)
+	}
+	t.Logf("teant=%+v", teant)
 }
 
 type User struct {
