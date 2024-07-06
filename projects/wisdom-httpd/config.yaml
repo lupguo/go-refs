@@ -1,0 +1,9 @@
+listen: ":1666"
+app:
+  root: /private/data/projects/github.com/lupguo/archstat_docs/content/computer-basic/golang/adv/nettcpx/wisdom-httpd
+  log_format: '{"time":"${time_custom}","id":"${id}","remote_ip":"${remote_ip}","host":"${host}","method":"${method}","uri":"${uri}","user_agent":"${user_agent}","status":${status},"error":"${error}","latency":${latency},"latency_human":"${latency_human}"`,"bytes_in":${bytes_in},"bytes_out":${bytes_out}}'
+  log_time_format: '2006-01-02 15:04:05.000'
+  assets:
+    asset_path: "assets"
+    view_path: "assets/views"
+

@@ -6,8 +6,8 @@ import (
 )
 
 type User struct {
-	name string
-	age  uint32
+	Name string
+	Age  uint32
 }
 
 func TestRefectType(t *testing.T) {
