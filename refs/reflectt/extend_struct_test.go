@@ -52,28 +52,3 @@ func TestUserExtend(t *testing.T) {
 
 	t.Logf("%s", marshal)
 }
-
-func TestUserExtendV2(t *testing.T) {
-	c := &Class{
-		Id: 100,
-		Students: []*People{
-			&People{
-				ID:   1,
-				Name: "zhang",
-				Extend: map[string]int{
-					"sv_abc": 1,
-					"sv_def": 1,
-				},
-			},
-		},
-	}
-
-	marshal, err := json.Marshal(u)
-	if err != nil {
-		return
-	}
-
-	t.Logf("%s", marshal)
-}
-
-// 期望得到 {"ID":1,"Name":"zhang","sv_abc":1,"sv_def":1}
