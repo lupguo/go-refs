@@ -7,6 +7,36 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestUnmarshal(t *testing.T) {
+	type A struct {
+		Id int `json:"id"`
+	}
+	var a *A
+
+	err := json.Unmarshal([]byte(`{"id":100}`), a)
+	if err != nil {
+		t.Error(err)
+	} else {
+		t.Logf("%+v", a)
+	}
+
+	err = json.Unmarshal([]byte(`{"id":100}`), &a)
+	if err != nil {
+		t.Error(err)
+	} else {
+		t.Logf("%+v", a)
+	}
+
+	// b := &a
+	marshal, err := json.Marshal(a)
+	if err != nil {
+		t.Logf("marshal got err: %s", err)
+	} else {
+		t.Logf("marshal %s", marshal)
+	}
+
+}
+
 func TestMarshal(t *testing.T) {
 	cases := []interface{}{
 		"",

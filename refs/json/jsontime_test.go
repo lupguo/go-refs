@@ -15,7 +15,7 @@ func TestJsonMarshalTime(t *testing.T) {
 
 	cli := &ClientService{
 		Namespace: "Test",
-		Target:    "polaris://trpc.ketang.go_edu_tim_push.GoEduTIMPushQapp",
+		Target:    "polaris://your-service-name",
 		Timeout:   500,
 	}
 
@@ -26,7 +26,7 @@ func TestJsonMarshalTime(t *testing.T) {
 
 	t.Logf("\n%s", v)
 
-	s := `{"Namespace":"Test","Timeout":500,"Target":"polaris://trpc.ketang.go_edu_tim_push.GoEduTIMPushQapp"}`
+	s := `{"Namespace":"Test","Timeout":500,"Target":"polaris://your-service-name"}`
 
 	var srvName *ClientService
 	err = json.Unmarshal([]byte(s), &srvName)

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"x-learn/advance/klog/log"
+	"x-learn/advanced/klog/log"
 )
 
 type cmdHandler func() error

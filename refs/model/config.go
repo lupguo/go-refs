@@ -14,9 +14,9 @@ type ConfigDb struct {
 var (
 	cfgDB = &ConfigDb{
 		host:      "127.0.0.1",
-		user:      "root",
-		password:  "Secret123.",
-		database:  "ONLINE_EDU_TEST",
+		user:      "user",
+		password:  "your-pass",
+		database:  "your-db",
 		charset:   "utf8mb4",
 		parseTime: true,
 		loc:       "Local",

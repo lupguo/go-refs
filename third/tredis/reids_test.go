@@ -32,8 +32,8 @@ var (
 	// step1
 	opts = &redis.Options{
 		Addr:       "127.0.0.1:6379",
-		Password:   "clark", // no password set
-		DB:         2,       // use default DB
+		Password:   "test", // no password set
+		DB:         2,      // use default DB
 		MaxRetries: 3,
 	}
 	rdb = redis.NewClient(opts)

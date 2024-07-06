@@ -1,7 +1,7 @@
 package main
 
 import (
-	"x-learn/advance/klog/log"
+	"x-learn/advanced/klog/log"
 	"x-learn/third/twire/twire"
 )
 

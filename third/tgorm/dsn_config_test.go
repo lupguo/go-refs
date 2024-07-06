@@ -9,8 +9,8 @@ import (
 
 func TestDsnConfig(t *testing.T) {
 	dbConfig := &mysql.Config{
-		User:   "root",
-		Passwd: "Secrect123",
+		User:   "user",
+		Passwd: "your-password",
 		Net:    "tcp",
 		Addr:   "127.0.0.1:3306",
 		DBName: "edu_account_bind",
@@ -30,8 +30,8 @@ func TestDsnConfig(t *testing.T) {
 
 func TestParseConfig(t *testing.T) {
 	confStr := `{
-        	"User": "root",
-        	"Passwd": "Secrect123.",
+        	"User": "user",
+        	"Passwd": "your-password",
         	"Net": "tcp",
         	"Addr": "127.0.0.1:3306",
         	"DBName": "edu_account_bind",
@@ -49,8 +49,4 @@ func TestParseConfig(t *testing.T) {
 	}
 	t.Logf("%+v", dbConfig)
 	t.Logf("%s", dbConfig.FormatDSN())
-}
-
-func TestName(t *testing.T) {
-
 }
