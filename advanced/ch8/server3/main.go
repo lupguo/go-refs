@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"x-learn/advance/klog/log"
+	"x-learn/advanced/klog/log"
 )
 
 func main() {

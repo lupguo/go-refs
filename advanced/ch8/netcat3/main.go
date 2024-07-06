@@ -7,7 +7,7 @@ import (
 	"os/signal"
 
 	"github.com/hold7techs/goval"
-	"x-learn/advance/klog/log"
+	"x-learn/advanced/klog/log"
 )
 
 func main() {
